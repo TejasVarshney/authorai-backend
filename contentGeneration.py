@@ -48,7 +48,7 @@ def generate(topic):
                         },
                     ),
         system_instruction=[
-            types.Part.from_text(text="""You are my AI Book Generation Model for content Generation. You job is to generate contents with summary for book based on the given topic."""),
+            types.Part.from_text(text="""You are my AI Book Generation Model for content Generation. You job is to generate contents with summary for book based on the given topic. Each content must have atleast 500 words"""),
         ],
     )
 

@@ -12,15 +12,15 @@ class FileHandler :
         self.file_path = folder_dir
 
     def read_file(self, file_name) :
-        with open(self.file_path+"/"+file_name, 'r') as f :
+        with open(self.file_path+"/"+file_name, 'r', encoding='utf-8') as f :
             return f.read()
     
     def write_file(self, filename, content) :
-        with open(self.file_path+"/"+filename, 'w') as f :
+        with open(self.file_path+"/"+filename, 'w', encoding='utf-8') as f :
             f.write(content)
     
     def append_file(self, filename, content) :
-        with open(self.file_path+"/"+filename, 'a') as f :
+        with open(self.file_path+"/"+filename, 'a', encoding='utf-8') as f :
             f.write(content)
             
     def delete_file(self, filename) :
