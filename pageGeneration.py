@@ -5,7 +5,7 @@ from google import genai
 from google.genai import types
 
 load_dotenv()
-def generate(content_number, content_title, content_summary, total_words):
+def generate(content_number, content_title, content_summary, total_words, prevStory=""):
     client = genai.Client(
         api_key=os.environ.get("GEMINI_API_KEY"),
     )
@@ -20,6 +20,7 @@ def generate(content_number, content_title, content_summary, total_words):
                     Content Title: {content_title}
                     Content Summary: {content_summary}
                     Total Words: {total_words}
+                    {("Previous Story: " +prevStory) if prevStory != "" else ""}
                 '''),
             ],
         ),

@@ -24,14 +24,21 @@ def call(topic: str = fastapi.Body(...)) :
     
     # generate content body for each content in contents
     res = []
+    
+    index = 0
     for(content) in contents["contents"] :
         print(str(content["content_number"]) + " " + content["content_title"] + " : on process")
-        
         #generate the content body for each title 
+        prevStory = ""
+        if index > 0 :
+            prevStory = res[index-1]["content"]
         page = json.loads(pageGenerate(content_number = content["content_number"], 
                                 content_title = content["content_title"], 
                                 content_summary = content["content_summary"], 
-                                total_words = content["total_words"]))
+                                total_words = content["total_words"],
+                                prevStory=prevStory
+                                ))
+        index += 1
         
         
         #write a json file for each content
