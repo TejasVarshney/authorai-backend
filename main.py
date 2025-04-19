@@ -3,11 +3,20 @@ import fastapi
 from file_handling import FileHandler
 from contentGeneration import generate as contentGenerate
 from pageGeneration import generate as pageGenerate
+from fastapi.middleware.cors import CORSMiddleware
 
 app = fastapi.FastAPI()
 
-@app.post("/getResponse")
-def call(topic) :
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],  # Your React app's URL
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+@app.post("/")
+def call(topic: str = fastapi.Body(...)) :
     file = FileHandler(f"./cache/{topic}")
     
     contents = json.loads(contentGenerate(topic))
@@ -34,7 +43,7 @@ def call(topic) :
         
         res.append(page)
     
-    return json.dumps(res)
+    return json.dumps({"response": res})
 
 if __name__ == "__main__" :
     import uvicorn
