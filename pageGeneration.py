@@ -1,4 +1,4 @@
-import base64
+import json
 from dotenv import load_dotenv
 import os
 from google import genai
@@ -46,12 +46,15 @@ def generate(content_number, content_title, content_summary, total_words):
         ],
     )
 
+    response = ""
     for chunk in client.models.generate_content_stream(
         model=model,
         contents=contents,
         config=generate_content_config,
     ):
-        print(chunk.text, end="")
+        response += chunk.text
+    return response
 
 if __name__ == "__main__":
-    generate()
+    res = generate("1", "Photosynthesis", "Photosynthesis is the process by which plants convert sunlight into energy.", "1000")
+    print(json.loads(res))
