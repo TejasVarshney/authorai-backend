@@ -20,7 +20,7 @@ def generate(content_number, content_title, content_summary, total_words, prevSt
                     Content Title: {content_title}
                     Content Summary: {content_summary}
                     Total Words: {total_words}
-                    {("Previous Story: " +prevStory) if prevStory != "" else ""}
+                    {("Previous Chapter: " +prevStory) if prevStory != "" else ""}
                 '''),
             ],
         ),
