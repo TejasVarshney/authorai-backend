@@ -1,10 +1,11 @@
 import base64
 import os
+from dotenv import load_dotenv
 from google import genai
 from google.genai import types
 
-
-def generate():
+load_dotenv()
+def generate(prompt):
     client = genai.Client(
         api_key=os.environ.get("GEMINI_API_KEY"),
     )
@@ -14,7 +15,7 @@ def generate():
         types.Content(
             role="user",
             parts=[
-                types.Part.from_text(text="""INSERT_INPUT_HERE"""),
+                types.Part.from_text(text=prompt),
             ],
         ),
     ]
@@ -73,13 +74,14 @@ def generate():
         ],
     )
 
-    
+    res = ""
     for chunk in client.models.generate_content_stream(
         model=model,
         contents=contents,
         config=generate_content_config,
     ):
-        print(chunk.text, end="")
+        res += chunk.text
+    return res
 
 if __name__ == "__main__":
     print(generate())
