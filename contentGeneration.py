@@ -23,7 +23,7 @@ def generate(topic):
     generate_content_config = types.GenerateContentConfig(
         response_mime_type="text/plain",
         system_instruction=[
-            types.Part.from_text(text="""Your AI Author Assistance. Your job is to take prompt and based on the prompt give the title of the, list of Chapter with chapter number and title, total page in each chapter, chapter summary. (Overall pages must be in range of 10 to 15). Your response will be feed to another AI."""),
+            types.Part.from_text(text="""Your AI Author Assistance. Your job is to take prompt and based on the prompt give the title of the, list of Chapter with chapter number and title, total page in each chapter, chapter summary. (Overall pages must be in range of 5-10). Your response will be feed to another AI."""),
         ],
     )
 
