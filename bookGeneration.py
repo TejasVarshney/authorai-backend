@@ -70,7 +70,7 @@ def generate(prompt):
                         },
                     ),
         system_instruction=[
-            types.Part.from_text(text="""You are AI Author that generate book based on the topic. You will first decide which category is the book from  the following : Fiction, Non-Fiction. Each page must contains atleast 500 words."""),
+            types.Part.from_text(text="""You are Author that generate book based on the topic. Each page must contains atleast 500 words. Be creative on your writing style and make it engaging."""),
         ],
     )
 
