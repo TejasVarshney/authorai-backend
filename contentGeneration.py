@@ -1,9 +1,11 @@
+import base64
 import os
-from dotenv import load_dotenv
 from google import genai
 from google.genai import types
+from dotenv import load_dotenv
 
 load_dotenv()
+
 def generate(topic):
     client = genai.Client(
         api_key=os.environ.get("GEMINI_API_KEY"),
@@ -19,47 +21,21 @@ def generate(topic):
         ),
     ]
     generate_content_config = types.GenerateContentConfig(
-        response_mime_type="application/json",
-        response_schema=genai.types.Schema(
-                        type = genai.types.Type.OBJECT,
-                        required = ["contents"],
-                        properties = {
-                            "contents": genai.types.Schema(
-                                type = genai.types.Type.ARRAY,
-                                items = genai.types.Schema(
-                                    type = genai.types.Type.OBJECT,
-                                    required = ["content_number", "content_title", "content_summary", "total_words"],
-                                    properties = {
-                                        "content_number": genai.types.Schema(
-                                            type = genai.types.Type.NUMBER,
-                                        ),
-                                        "content_title": genai.types.Schema(
-                                            type = genai.types.Type.STRING,
-                                        ),
-                                        "content_summary": genai.types.Schema(
-                                            type = genai.types.Type.STRING,
-                                        ),
-                                        "total_words" : genai.types.Schema(
-                                            type = genai.types.Type.NUMBER
-                                        )
-                                    },
-                                ),
-                            ),
-                        },
-                    ),
+        response_mime_type="text/plain",
         system_instruction=[
-            types.Part.from_text(text="""You are my AI Book Generation Model that generate unique story based on the given topic. You job is to generate chapters(contents) with summary for unique story book based on the given topic. Each content must have atleast 500 words."""),
+            types.Part.from_text(text="""Your AI Author Assistance. Your job is to take prompt and based on the prompt give the title of the, list of Chapter with chapter number and title, total page in each chapter, chapter summary. (Overall pages must be in range of 10 to 15). Your response will be feed to another AI."""),
         ],
     )
 
-    response = ""
+    res = ""
     for chunk in client.models.generate_content_stream(
         model=model,
         contents=contents,
         config=generate_content_config,
     ):
-        response += chunk.text
-    return response
+        res += chunk.text
 
-# if __name__ == "__main__":
-#     generate()
+    return res
+
+if __name__ == "__main__":
+    print(generate())

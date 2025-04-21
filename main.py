@@ -2,6 +2,7 @@ import json
 import fastapi 
 from file_handling import FileHandler
 from bookGeneration import generate as bookGenerate
+from contentGeneration import generate as contentGenerate
 from fastapi.middleware.cors import CORSMiddleware
 
 app = fastapi.FastAPI()
@@ -17,7 +18,11 @@ app.add_middleware(
 @app.post("/")
 def call(topic: str = fastapi.Body(...)) :
     print("Started Generating Book for : " + topic)
-    res = bookGenerate(topic)
+    content = contentGenerate(topic)
+    
+    print(content)
+    res = bookGenerate(content)
+    print(res)
     
     book_title = json.loads(res)['title'].replace(" ", "_")
     file = FileHandler(f"./cache/")
@@ -25,6 +30,7 @@ def call(topic: str = fastapi.Body(...)) :
     print("Completed Generating Book for : " + topic)
     return res
 
-# if __name__ == "__main__" :
-#     import uvicorn
-#     uvicorn.run(app)
+if __name__ == "__main__" :
+    import uvicorn
+    uvicorn.run(app)
+    # print(call("Photosynthesis"))
